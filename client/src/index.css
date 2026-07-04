@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/*
+ * Theme variables — default values below match the original teal design.
+ * ThemeContext (see src/context/PortfolioContext.jsx) overwrites
+ * --color-primary and --color-accent on <html> at runtime using colors
+ * saved from Admin -> Profile, so the whole site re-themes instantly
+ * without a rebuild.
+ */
+:root {
+  --color-primary: #0F6E56;
+  --color-accent: #1D9E75;
+  --color-dark: #0a0f0e;
+  --color-surface: #111918;
+  --color-card: #192420;
+  --color-border: #1e2e2a;
+  --color-muted: #4a6e62;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-dark text-white font-sans antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--color-accent) 15%, transparent), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, color-mix(in srgb, var(--color-primary) 8%, transparent), transparent),
+    radial-gradient(ellipse 50% 30% at 0% 80%, color-mix(in srgb, var(--color-accent) 6%, transparent), transparent);
+}
+
+.gradient-heading {
+  background: linear-gradient(135deg, #ffffff 0%, var(--color-accent) 50%, color-mix(in srgb, var(--color-accent) 70%, white) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-border {
+  position: relative;
+  display: inline-block;
+}
+
+.gradient-border::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 72px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), color-mix(in srgb, var(--color-accent) 70%, white));
+  border-radius: 4px;
+}
+
+.glass-card {
+  @apply bg-card/80 backdrop-blur-xl border border-border/80 rounded-2xl;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-nav {
+  @apply backdrop-blur-xl bg-dark/70 border-b border-border/50;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  @apply px-8 py-3.5 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-semibold transition-all duration-300;
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
+.btn-outline {
+  @apply px-8 py-3.5 border-2 border-accent/60 text-accent rounded-xl font-semibold transition-all duration-300 hover:bg-accent/10 hover:border-accent;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 12%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.section-alt {
+  @apply relative;
+  background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--color-surface) 50%, transparent) 50%, transparent 100%);
+}
