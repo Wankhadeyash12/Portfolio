@@ -5,9 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-
 const app = express();
-
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
@@ -21,9 +19,16 @@ app.use(
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(morgan('dev'));
-
 app.use('/uploads/avatars', express.static(path.join(__dirname, '../uploads/avatars')));
 app.use('/uploads/images', express.static(path.join(__dirname, '../uploads/images')));
+
+// Lightweight health check for uptime monitors (e.g. UptimeRobot) to ping
+// every few minutes, so Render's free-tier service doesn't spin down from
+// inactivity. Placed before the rate limiter and with no DB call, so it
+// always responds instantly and never eats into real traffic's rate limit.
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', uptime: process.uptime() });
+});
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -31,7 +36,6 @@ const limiter = rateLimit({
   message: { message: 'Too many requests, please try again later.' },
 });
 app.use(limiter);
-
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/skills', require('./routes/skillRoutes'));
@@ -40,17 +44,14 @@ app.use('/api/documents', require('./routes/documentRoutes'));
 app.use('/api/messages', require('./routes/messageRoutes'));
 app.use('/api/profile', require('./routes/profileRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
-
 // Serve the built React app (client/dist) from this same server so the
 // whole site — frontend + API — runs as one Render service. In local dev
 // the frontend runs separately via `vite dev` on port 5173, so this simply
 // has nothing to serve there and is skipped.
 const clientDistPath = path.join(__dirname, '../../client/dist');
 const clientIndexPath = path.join(clientDistPath, 'index.html');
-
 if (fs.existsSync(clientDistPath)) {
   app.use(express.static(clientDistPath));
-
   // Anything that isn't an /api or /uploads route and isn't a real static
   // file falls through to index.html, so React Router can handle client-side
   // routes like /admin/login directly (no 404 on refresh/direct link).
@@ -61,10 +62,8 @@ if (fs.existsSync(clientDistPath)) {
     res.sendFile(clientIndexPath);
   });
 }
-
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({ message: err.message || 'Server error' });
 });
-
 module.exports = app;
