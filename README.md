@@ -1,120 +1,55 @@
 # Yash Wankhade — MERN Portfolio
 
-Full-stack portfolio website for Yash Wankhade, Full Stack Web & Android Developer.
+A modern, full-stack personal portfolio website built to showcase projects, skills, experience, and professional work in an interactive and responsive interface.
 
-**Stack:** MongoDB Atlas · Express · React (Vite) · Node.js · TailwindCSS · Framer Motion · JWT · Cloudinary · Nodemailer
+## 🌐 Live Website
 
-## Project Structure
+**https://portfolio-frontend-wkfh.onrender.com/**
 
-```
+## 📌 About the Project
+
+This portfolio is built as a full-stack web application rather than a static website.
+
+The frontend provides a responsive and interactive user experience, while the backend manages portfolio content dynamically through a database and provides a secure admin panel for managing the website.
+
+The project is designed to make portfolio content easy to update and maintain without changing the frontend source code.
+
+## ✨ Key Features
+
+* Responsive and modern portfolio interface
+* Dynamic portfolio content
+* Project management
+* Skills and experience management
+* Secure admin authentication
+* Admin dashboard
+* Resume/document management
+* Contact form
+* Email integration
+* Cloud-based image and document storage
+* Smooth animations and interactive UI
+
+## 🛠️ Tech Stack
+
+* **Frontend:** React, Vite, Tailwind CSS, Framer Motion
+* **Backend:** Node.js, Express.js
+* **Database:** MongoDB Atlas
+* **Authentication:** JWT
+* **Cloud Storage:** Cloudinary
+* **Email:** Nodemailer
+
+
+## 📁 Project Structure
+
+```text
 yash-portfolio/
-├── server/     # Express API backend
-└── client/     # React Vite frontend
+├── client/     # React frontend
+└── server/     # Express backend
 ```
 
-## Prerequisites
+## 🔗 Live Demo
 
-- Node.js 18+
-- MongoDB Atlas account
-- Cloudinary account (for image/document uploads)
-- Gmail app password (for contact form emails)
+**[Visit Portfolio →](https://portfolio-frontend-wkfh.onrender.com/)**
 
-## Environment Variables
-
-### Server (`server/.env`)
-
-| Variable | Description |
-|---|---|
-| `PORT` | Server port (default: 5000) |
-| `MONGO_URI` | MongoDB Atlas connection string |
-| `JWT_SECRET` | Secret key for JWT signing |
-| `JWT_EXPIRES_IN` | Token expiry (default: 7d) |
-| `CLIENT_URL` | Frontend URL (http://localhost:5173) |
-| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
-| `CLOUDINARY_API_KEY` | Cloudinary API key |
-| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
-| `EMAIL_HOST` | SMTP host (smtp.gmail.com) |
-| `EMAIL_PORT` | SMTP port (587) |
-| `EMAIL_USER` | Gmail address |
-| `EMAIL_PASS` | Gmail app password |
-| `ADMIN_EMAIL` | Admin notification email |
-| `ADMIN_PASSWORD` | Initial admin password (for setup) |
-
-### Client (`client/.env`)
-
-| Variable | Description |
-|---|---|
-| `VITE_API_URL` | Backend API URL (http://localhost:5000/api) |
-
-## Setup
-
-### 1. Install dependencies
-
-```bash
-cd server && npm install
-cd ../client && npm install
-```
-
-### 2. Configure environment
-
-Copy and fill in the `.env` files in both `server/` and `client/`.
-
-### 3. Seed the database
-
-```bash
-cd server
-npm run seed
-```
-
-### 4. Create admin account (one-time)
-
-```bash
-curl -X POST http://localhost:5000/api/auth/setup \
-  -H "Content-Type: application/json" \
-  -d '{"email":"wankhadeyash2006@gmail.com","password":"YOUR_PASSWORD"}'
-```
-
-## Development
-
-Start both servers in separate terminals:
-
-```bash
-# Backend
-cd server && npm run dev
-
-# Frontend
-cd client && npm run dev
-```
-
-- Portfolio: http://localhost:5173
-- Admin panel: http://localhost:5173/admin/login
-- API: http://localhost:5000/api
-
-## Build & Deploy
-
-```bash
-# Frontend production build
-cd client && npm run build
-
-# Backend production start
-cd server && npm start
-```
-
-Deploy the `client/dist` folder to a static host and the server to a Node.js host. Set environment variables on both platforms.
-
-## API Routes
-
-| Route | Access | Description |
-|---|---|---|
-| `/api/auth` | Public/Admin | Login, setup, me |
-| `/api/projects` | Public/Admin | Project CRUD |
-| `/api/skills` | Public/Admin | Skills CRUD |
-| `/api/experience` | Public/Admin | Experience CRUD |
-| `/api/documents` | Public/Admin | Document upload/delete |
-| `/api/messages` | Admin | Message management |
-| `/api/profile` | Public/Admin | Profile read/update |
-| `/api/contact` | Public | Contact form submission |
-
-## License
+## 📄 License
 
 Private — © Yash Wankhade
