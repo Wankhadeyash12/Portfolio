@@ -16,7 +16,22 @@ app.use(
     contentSecurityPolicy: false,
   })
 );
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+const allowedOrigins = (process.env.CLIENT_URL || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow non-browser requests (no origin header) and any listed origin
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(morgan('dev'));
 app.use('/uploads/avatars', express.static(path.join(__dirname, '../uploads/avatars')));
